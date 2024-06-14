@@ -43,9 +43,9 @@ mkdir data results
 ### Server
 We copy the client script `sigStartServers.py` onto the server machine. We assume the script is copied into the home directory `~/sigStartServers.py`. 
 
-We need to create a two subdirectories to store logs and certificates/private key ("PKI").
+We need to create a subdirectories to store logs and certificates/private key ("PKI").
 ```
-mkdir logs pki
+mkdir logs pki pki/cacerts pki/servercerts
 ```
 
 We provide helper scripts to generate CA and server certificates/key:

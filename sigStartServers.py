@@ -25,6 +25,8 @@ purelyPQSignaturesPorts = {
 hybridPQSignaturesPorts = {
     'ED25519' : 5000,
     'prime256v1' : 5100,
+    'secp384r1' : 5200,
+    'secp521r1' : 5300,
     'p256_dilithium2' : 7000,
     'rsa3072_dilithium2' : 7100,
     'p384_dilithium3' : 7200,
