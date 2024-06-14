@@ -1,4 +1,4 @@
-# Benchmarking scripts user guide
+# PQ TLS benchmarking scripts user guide
 This repository contains scripts which can be used to contain TLS benchmarks using OpenSSL. There are 4 Python scripts and 2 helper bash scripts.
 
 2 of the Python scripts prefixed by `sig`, are used to benchmark signatures in TLS and the other two prefixed by `kex` are used to benchmark key exchange algorithms in TLS.
