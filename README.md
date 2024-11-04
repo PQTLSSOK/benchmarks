@@ -8,6 +8,8 @@ The 2 bash scripts are used to generate certificates and keys.
 For simplicty, we describe the setup for benchmarking signatures. Benchmarking KEMs 
 can be done similarly: by using the other two scripts.
 
+We also provide a Dockerfile which produces a Docker image that can be used to create the client and the server. If you want to use Docker, you can skip Prerequisites and Setup sections and follow the steps in the section Docker.
+
 ## Prerequisites 
 We assume we have two machines: the client and the server. They have a common set of requirements.
 
@@ -65,6 +67,31 @@ We provide helper scripts to generate CA and server certificates/key:
 
  We note that prime256v1 certificates/keys need to be generated for key exchange benchmarks as it is the default signature algorithm used (it can be changed inside the Python script, see comments inside).
 
+## Docker
+First, we need to build the Docker image from the Dockerfile. This can take a long time since the build process builds OpenSSL, libOQS and the OQS provider. The following command needs to be executed in the folder where `Dockerfile` is and it creates a Docker image under the tag `[name]`.
+```
+docker build -t [name] -f Dockerfile .
+```
+Then, we can use the docker container as the server and the client. For example the following command creates a docker container and runs the command `python sigStartServers.py 10`.
+```
+docker run -it --rm --net=host --mount type=bind,source="$PWD",target=/home/results [name] /bin/sh -c "python sigStartServers.py 10"
+```
+In general, any command described in the section below can be executed in this way.
+```
+docker run -it --rm --net=host --mount type=bind,source="$PWD",target=/home/results [name] /bin/sh -c "[COMMAND]"
+```
+Note that this command also mounts the current directory as the `/home/results` directory inside the container, therefore, if we run the client benchmarking script inside the container, the results file gets output into our current directory.
+
+For example, if we want to run the server and the client on the same machine, we would execute:
+```
+docker run -it --rm --net=host --mount type=bind,source="$PWD",target=/home/results [name] /bin/sh -c "python sigStartServers.py 10"
+```
+and then
+```
+docker run -it --rm --net=host --mount type=bind,source="$PWD",target=/home/results [name] /bin/sh -c "python sigRunBenchmarks.py 0.0.0.0 1 10 10"
+```
+
+Note that the Dockerfile compiles only OQS provider version 0.5.2 with libOQS 0.9.0. The dockerfile can be easily modified to instead use other versions.
 ## Running benchmarks
  Now that we have everything set up on the client machine and on the server machine. We can begin benchmarking.
 
